@@ -106,10 +106,126 @@ As the number of devices in the network increases, the number of connections gro
 
 ---
 
-## Conclusion
+In a **full mesh topology**, each device (node) needs a certain number of **ports** (or interfaces) to connect to every other device. The number of ports required per device depends on how many other devices it needs to connect to.
 
-A **full mesh topology** is a robust and fault-tolerant design but comes with significant overhead in terms of the number of connections required as the network scales. The formula \(\frac{N(N-1)}{2}\) helps to calculate the total number of connections based on the number of devices.
+For a device in a **full mesh topology**, the number of ports required is:
 
-For small networks, mesh topology offers excellent reliability, but for larger networks, alternative topologies like **star** or **hybrid** might be more practical.
+\[
+\text{Ports per Device} = N - 1
+\]
+
+Where `N` is the total number of devices in the network.
+
+This means that every device will have `N - 1` connections, because it needs to connect to every other device except itself.
 
 ---
+
+## Mesh Topology: Total Connections and Port Calculation
+
+### Total Ports Calculation:
+The total number of **ports** across all devices in the network is calculated as:
+
+\[
+\text{Total Ports} = N \times (N - 1)
+\]
+
+This is because each of the `N` devices needs `N - 1` ports to connect to the other devices. In a full mesh network, every connection uses one port at each end of the connection.
+
+---
+
+## Python Code Example for Calculating Ports
+
+Below is an updated Python function to calculate both the **total number of connections** and the **total number of ports** required in a full mesh topology.
+
+```python
+def calculate_mesh_topology(n):
+    """
+    Calculate the number of connections and ports in a full mesh topology.
+
+    Parameters:
+    n (int): The number of devices in the network.
+
+    Returns:
+    tuple: Total connections (int), total ports (int), ports per device (int)
+    """
+    total_connections = (n * (n - 1)) // 2  # Total unique connections
+    total_ports = n * (n - 1)               # Total number of ports
+    ports_per_device = n - 1                # Ports required per device
+    
+    return total_connections, total_ports, ports_per_device
+```
+
+### Example Usage
+
+```python
+# Example: Calculate connections and ports for 5 devices
+devices = 5
+connections, total_ports, ports_per_device = calculate_mesh_topology(devices)
+
+print(f"Total connections: {connections}")
+print(f"Total ports: {total_ports}")
+print(f"Ports per device: {ports_per_device}")
+```
+
+Output:
+```bash
+Total connections: 10
+Total ports: 20
+Ports per device: 4
+```
+
+### Example Calculations:
+
+1. **For 4 devices**:
+   ```python
+   calculate_mesh_topology(4)
+   ```
+   **Result**:
+   - Total connections: **6**
+   - Total ports: **12**
+   - Ports per device: **3**
+
+2. **For 10 devices**:
+   ```python
+   calculate_mesh_topology(10)
+   ```
+   **Result**:
+   - Total connections: **45**
+   - Total ports: **90**
+   - Ports per device: **9**
+
+3. **For 50 devices**:
+   ```python
+   calculate_mesh_topology(50)
+   ```
+   **Result**:
+   - Total connections: **1,225**
+   - Total ports: **2,450**
+   - Ports per device: **49**
+
+---
+
+## Summary of Calculations
+
+For a full mesh network:
+- **Total Connections**: \(\frac{N(N-1)}{2}\)
+- **Ports per Device**: \(N - 1\)
+- **Total Ports**: \(N \times (N - 1)\)
+
+### Growth of Connections and Ports:
+
+| Number of Devices | Total Connections | Total Ports | Ports per Device |
+|-------------------|-------------------|-------------|------------------|
+| 3                 | 3                 | 6           | 2                |
+| 4                 | 6                 | 12          | 3                |
+| 5                 | 10                | 20          | 4                |
+| 10                | 45                | 90          | 9                |
+| 50                | 1,225             | 2,450       | 49               |
+
+---
+
+## Conclusion
+
+In a **full mesh topology**, both the number of connections and the number of ports grow rapidly as the number of devices increases. Each device requires \(N - 1\) ports, and the total number of ports across all devices is \(N \times (N - 1)\). This makes full mesh topology challenging to scale for large networks, despite its fault-tolerant nature.
+
+This Python code can easily be added to any project documentation, and the explanation will help users understand the network design calculations.
